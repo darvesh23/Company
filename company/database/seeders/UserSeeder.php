@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use \Faker\Factory as Faker;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class UserSeeder extends Seeder
@@ -13,18 +13,17 @@ class UserSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(User $user)
     {
         //
         
-        $faker = Faker::create();
-        $count = DB::table('users')->count();
+        $count = $user->count();
         if($count == 0) {
-        DB::table("users")->insert([
-            "Name" => $faker->name(),
-            "salary" => $faker->numerify('###'),
+        $user->insert([
+            "Name" => "Mark John",
+            "salary" => 999,
             "password" =>bcrypt("12345678"),
-            "email"=>$faker->email(),
+            "email"=>"john@co.us",
             "company_id"=>1,
             
         ]);

@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\comments;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Database\Eloquent\Builder;
 use Auth;
 use JWTAuth;
 use Hash;
-use App\Http\Requests\commentsRequest;
+use App\Http\Requests\CommentRequest;
+use App\Http\Requests\CommentPatchRequest;
 
 
-class commentsController extends Controller
+class CommentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,28 +24,25 @@ class commentsController extends Controller
     {
         //
     }
+    
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request,commentsRequest $commentsRequest)
+    public function create(CommentRequest $request,User $user)
     {
-        $logUser = auth()->user();
-
-        if($logUser->id != $request->user_id){
-            return response()->json(['error'=>"denied{userId}"]);
-        }
-        $comm = comments::create([
+       
+        $comm = $user->comments()->create([
             'Body' => $request->body,
-            'user_id' => $request->userId,
-            'post_id'=>$request->postId            
+          //  'user_id' => $request->userId,
+            'post_id'=>$request->post_id            
 
             ]);
 
         return response()->json([
-            'message' => 'commented successfully ',
+            'message' => 'Commented successfully ',
             'user' => $comm
         ], 201);
     
@@ -64,21 +62,21 @@ class commentsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\comments  $comments
+     * @param  \App\Models\Comment  $Comment
      * @return \Illuminate\Http\Response
      */
-    public function show(comments $comments,$userid,$id)
+    public function show(Comment $Comment,$userid,$id)
     {
-        return $comments->find($id);
+        return $Comment->find($id);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\comments  $comments
+     * @param  \App\Models\Comment  $Comment
      * @return \Illuminate\Http\Response
      */
-    public function edit(comments $comments)
+    public function edit(Comment $Comment)
     {
         //
     }
@@ -87,19 +85,13 @@ class commentsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\comments  $comments
+     * @param  \App\Models\Comment  $Comment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, comments $comments,$userId,$id ,commentsRequest $commentsRequest)
+    public function update(CommentPatchRequest $request,User $user,$id)
     {
-        $comm = $comments->find($id);
-
-        $logUser = auth()->user();
-
-        if($logUser->id != $comm->user_id){
-            return response()->json(['error'=>"cannot update comment of diff user"]);
-        }
-        $comm->where("id", $id)->update([
+       
+        $comm = $user->comments()->where("id", $id)->update([
                 'Body' => $request->body,
                 'user_id' => $request->userId,
                 'post_id'=>$request->postId            
@@ -116,16 +108,14 @@ class commentsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\comments  $comments
+     * @param  \App\Models\Comment  $Comment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(comments $comments ,$userId,$id)
+    public function destroy(CommentPatchRequest $request,User $user ,$userId,$id)
     {
-        $com = $comments->find($id);
-        if($com)
-           $com->delete(); 
-        else
-            return response()->json("comment dosn't exist");
+        $cat=$user->comments()->delete($id);
+
         return response()->json("deleted"); 
+       
     }
 }

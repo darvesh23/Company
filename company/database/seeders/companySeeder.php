@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use \Faker\Factory as Faker;
+use App\Models\Company;
 
 class companySeeder extends Seeder
 {
@@ -13,17 +13,15 @@ class companySeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(Company $company)
     {
-        $faker = Faker::create();
-
-        $count = DB::table('companies')->count();
-    //if($count == 0) {
-    DB::table("companies")->insert([
-        "Name" => $faker->company(),
-        "Location" => $faker->address,
+     $count = $company->count();
+    if($count == 0) {
+    $company->insert([
+        "Name" => 'New TechInfo',
+        "Location" => 'Dubai',
     ]);
-  //  }
+   }
        
     
     }

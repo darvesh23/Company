@@ -5,16 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class comments extends Model
-{
+class Post_tag extends Model
+{   
+    protected $table = 'post_tags';
+
     use HasFactory;
     public $timestamps = false;
     protected $guarded = [];
-    public function user(){
-        return $this->belongsTo(User::class);
-    }
-    public function post(){
-        return $this->belongsTo(posts::class);
-    }
 
 }

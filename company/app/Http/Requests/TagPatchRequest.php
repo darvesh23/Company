@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class tagsRequest extends FormRequest
+class TagPatchRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,17 +23,9 @@ class tagsRequest extends FormRequest
      */
     public function rules()
     {
-        switch($this->method()) {
-        case 'POST':
         return [
-            'Name' => 'required|string|min:2|max:100',
-            'userId' => 'required|exists:Users,id',
+            'Name' => 'string|min:2|max:100',
+            'userId' => 'exists:users,id',
         ];
-        case 'PUT':
-            return [
-                'Name' => 'required|string|min:2|max:100',
-                'userId' => 'required|exists:users,id',
-               ];    
-        }
     }
 }

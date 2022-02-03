@@ -2,26 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\post_tags;
+use App\Models\Post_Tag;
 use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Database\Eloquent\Builder;
 use Auth;
 use JWTAuth;
 use Hash;
-use App\Http\Requests\posttagsRequest;
+use App\Http\Requests\PostTagRequest;
 
 
-class posttagController extends Controller
+class PostTagController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($post_id)
+    public function index(Post_Tag $Post_Tag,$post_id)
     {
-       return post_tags::where('post_id',$post_id)->get();
+       return Post_Tag::where('post_id',$post_id)->get();
     }
 
     /**
@@ -40,16 +40,16 @@ class posttagController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,Post_Tag $Post_Tag  , posttagRequest $posttagRequest)
     {   
-            $user = posts::find($request->postId)->user_id;
+            $user = $Post_Tag->find($request->postId)->user_id;
             $logUser = auth()->user();
 
             if($logUser->id != $user){
                 return response()->json(['error'=>"denied{userId}"]);
             }
       
-            $tag=post_tags::create([
+            $tag=Post_Tag::create([
             'post_id' => $request->postId,
             'tag_id' => $request->tagId,
             ]);
@@ -62,10 +62,10 @@ class posttagController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\post_tags  $post_tags
+     * @param  \App\Models\Post_Tag  $Post_Tag
      * @return \Illuminate\Http\Response
      */
-    public function show(post_tags $post_tags)
+    public function show(Post_Tag $Post_Tag)
     {
         //
     }
@@ -73,10 +73,10 @@ class posttagController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\post_tags  $post_tags
+     * @param  \App\Models\Post_Tag  $Post_Tag
      * @return \Illuminate\Http\Response
      */
-    public function edit(post_tags $post_tags)
+    public function edit(Post_Tag $Post_Tag)
     {
         //
     }
@@ -85,10 +85,10 @@ class posttagController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\post_tags  $post_tags
+     * @param  \App\Models\Post_Tag  $Post_Tag
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, post_tags $post_tags)
+    public function update(Request $request, Post_Tag $Post_Tag)
     {
         
     }
@@ -96,12 +96,12 @@ class posttagController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\post_tags  $post_tags
+     * @param  \App\Models\Post_Tag  $Post_Tag
      * @return \Illuminate\Http\Response
      */
-    public function destroy(post_tags $post_tags,$postId,$tagId)
+    public function destroy(Post_Tag $Post_Tag,$postId,$tagId)
     {
-        $com = $post_tags->where("post_id",'=', $postId)->get()->Where(["tag_id",'=', $tagId]);
+        $com = $Post_Tag->where("post_id",'=', $postId)->get()->Where(["tag_id",'=', $tagId]);
        
         if($com)
            $com->each->delete(); 

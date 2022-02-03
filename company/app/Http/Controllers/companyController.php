@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\companiesRequest;
-use App\Models\companies;
+use App\Http\Requests\CompanyRequest;
+use App\Http\Requests\CompanyPatchRequest;
+
+use App\Models\Company;
 use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Database\Eloquent\Builder;
@@ -11,90 +13,57 @@ use Auth;
 use JWTAuth;
 use Hash;
 
-class companyController extends Controller
+class CompanyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+   
     public function index()
     {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request,companiesRequest $companiesRequest)
-    {
+    public function store(CompanyRequest $request ,Company $company)
+    {   
+       
         
-            $company=companies::create([
+            $company=$company->create([
             'name' => $request->name,
             'location' => $request->location,
-            'company_id'=>$request->company_id,
+            'company_id'=>$request->Company_id,
         ]);
             return response()->json([
                 'message' => 'Company successfully created',
-                'company' => $company
+                'Company' => $company
             ], 201);
         
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\companies  $companies
-     * @return \Illuminate\Http\Response
-     */
-    public function show(companies $companies,$id)
+    public function show(Company $Company,$id)
     {
-        return $companies->find($id);
+        return $Company->find($id);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\companies  $companies
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(companies $companies)
+    public function edit(Company $Company)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\companies  $companies
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, companies $companies,$id,companiesRequest $companiesRequest)
-    {
-        $com=companies::find($id);
+    public function update(CompanyPatchRequest $request ,Company $company,$id)
+    {   
+       
         
-            $com->where("id",$id)->update([
+            $company=$company->where("id",$id)->update([
             'name' => $request->name,
             'location' => $request->location,
-            'company_id'=>$request->company_id,
+            'Company_id'=>$request->Company_id,
         ]);
             return response()->json([
                 'message' => 'Company successfully updated',
-                'company' => $com
+                'Company' => $company
             ], 201);
     
     }
@@ -102,22 +71,13 @@ class companyController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\companies  $companies
+     * @param  \App\Models\Company  $Company
      * @return \Illuminate\Http\Response
      */
-    public function destroy(companies $companies,$id)
+    public function destroy(CompanyPatchRequest $CompPatchrequest,Company $Company,$id)
     {
-        $com = companies::find($id);
-        if($com){
-            $com->delete();
-            return response()->json([
-            'message' => 'Company destroyed successfully',
-            ], 201);
-        }
-        else {
-            return response()->json([
-                'message' => 'Company does not exists',
-                ], 404);
-        }
+        $cat=$Company->delete($id);
+
+        return response()->json("deleted"); 
     }
 }   

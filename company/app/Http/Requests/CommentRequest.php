@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class posttagsRequest extends FormRequest
+class CommentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,9 @@ class posttagsRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        $com =$this->user->id;
+        
+        return (auth()->user()->id == $com);
     }
 
     /**
@@ -23,12 +25,12 @@ class posttagsRequest extends FormRequest
      */
     public function rules()
     {
-        switch($this->method()) {
-            case 'POST':
-            return [
-                'tagId' => 'required|exists:tags,id',
-                'postId' => 'required|exists:posts,id',
-            ];
-        }
+                return [
+                    'body' => 'required|string|min:2|max:100',
+                   // 'user_id' => 'required|exists:users,id',
+                    'post_id' => 'required|exists:posts,id'
+                ];
+            
+            
     }
 }

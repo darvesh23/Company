@@ -5,19 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class categories extends Model
+class Comment extends Model
 {
     use HasFactory;
     public $timestamps = false;
     protected $guarded = [];
+    protected $table = 'comments';
 
 
-
-    public function user(){
+    public function users(){
         return $this->belongsTo(User::class);
     }
-    
-    public function post(){
-        return $this->hasMany(posts::class);
+    public function posts(){
+        return $this->belongsTo(Posts::class);
     }
+
 }
