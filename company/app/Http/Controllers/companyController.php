@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Company\CompanyRequest;
-use App\Http\Requests\Company\CompanyPatchRequest;
-use App\Http\Requests\Company\CompanyDeleteRequest;
-
+use App\Http\Requests\Company\StoreCompanyRequest;
+use App\Http\Requests\Company\UpdateCompanyRequest;
+use App\Http\Requests\Company\DeleteCompanyRequest;
+use App\Http\Requests\Company\GetCompanyRequest;
+use App\Http\Requests\Company\GetAllCompanyRequest;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use Validator;
@@ -17,48 +18,65 @@ use Hash;
 class CompanyController extends Controller
 {
    
-    public function under(Company $company)
+    public function under(GetCompanyRequest $request,Company $company)
     {
-        return $company->with('parent')->where('id', $company->id)->get();
+        return $company->with('child')->where('id', $company->id)->get();
     }
 
-    public function index(Company $company)
-    {
-        return $company->all();
-    }
+    
 
-    public function store(CompanyRequest $request ,Company $company)
+    public function store(StoreCompanyRequest $request ,Company $company)
     {   
              
-        $company=$company->parent()->create([
+        $company=$company->child()->create([
             'name' => $request->name,
             'location' => $request->location,
-          
-              ]);
+             ]);
+
+              $id=$company->id;
+
+             $admin= $company->users()->create(([
+                "name" => $request->name."admin",
+                "salary" => 0,
+                "password" => bcrypt("12345678"),
+                "email" => $request->name."admin@gmail.com",
+                "company_id"=>$id
+            ]));
+
             return response()->json([
                 'message' => 'Company successfully created',
-                'Company' => $company
+                'Company' => $company,
+                'Admin' => $admin
             ], 201);
+
+           
         
     }
 
-    public function show(Company $company)
+    public function show(GetCompanyRequest $request,Company $company)
     {
         return $company;
     }
 
-    public function edit(Company $Company)
+
+    public function index(GetAllCompanyRequest $request,Company $company)
     {
-        
+        return $company->all();
     }
 
-    public function update(CompanyPatchRequest $request ,Company $company)
-    {                  
-            $company=$company->update([
-            'name' => $request->name,
-            'location' => $request->location,
-          //  'company_id'=>$request->company_id,
-        ]);
+
+    public function update(UpdateCompanyRequest $request ,Company $company)
+    {                   
+        
+        $input=[];
+        if($request->has('name')){
+            $input['name']=$request->name;
+        }
+        if($request->has('location')){
+            $input['location']=$request->location;
+        }
+       $company= $company->update($input);
+    
             return response()->json([
                 'message' => 'Company successfully updated',
                 'Company' => $company
@@ -67,7 +85,7 @@ class CompanyController extends Controller
     }
 
    
-    public function destroy(CompanyDeleteRequest $CompanyDeleterequest,Company $company)
+    public function destroy(DeleteCompanyRequest $DeleteCompanyRequest,Company $company)
     {
         $cat=$company->delete();
         if($cat)

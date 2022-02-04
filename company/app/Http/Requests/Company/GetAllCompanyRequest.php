@@ -4,7 +4,7 @@ namespace App\Http\Requests\Company;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CompanyPatchRequest extends FormRequest
+class GetAllCompanyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -12,9 +12,8 @@ class CompanyPatchRequest extends FormRequest
      * @return bool
      */
     public function authorize()
-    { 
-        $com =$this->company->id;
-        return (auth()->user()->company_id == $com);
+    {
+        return true;
     }
 
     /**
@@ -25,9 +24,7 @@ class CompanyPatchRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'string|min:2|max:100',
-            'location'=>'string|min:3',
-            'company_id' => 'exists:companies,id'
+            //
         ];
     }
 }

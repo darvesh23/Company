@@ -32,28 +32,28 @@ Route::get('/user', [JWTController::class,'profile']);
 // Routes for companys
 
 
-Route::get('/companys',[CompanyController::class,'index']);
+Route::get('/companies',[CompanyController::class,'index']);
 
-Route::get('/companys/{company}',[CompanyController::class,'show']);
+Route::get('/companies/{company}',[CompanyController::class,'show']);
 
-Route::post('/companys/{company}/companys',[CompanyController::class,'store']);
+Route::post('/companies/{company}/companies',[CompanyController::class,'store']);
 
-Route::patch('/companys/{company}',[CompanyController::class,'update']);
+Route::patch('/companies/{company}',[CompanyController::class,'update']);
 
-Route::delete('/companys/{company}',[CompanyController::class,'destroy']);
+Route::delete('/companies/{company}',[CompanyController::class,'destroy']);
 
-Route::get('/companysUnder/{company}',[CompanyController::class,'under']);
+Route::get('/companies/{company}/companies',[CompanyController::class,'under']);
 
 
 // Routes for users
 
-Route::get('/companys/{company}/users/{user}',[UserController::class,'show']);
+Route::get('/companies/{company}/users/{user}',[UserController::class,'show']);
 
-Route::post('/companys/{company}/users', [UserController::class,'store']);
+Route::post('/companies/{company}/users', [UserController::class,'store']);
 
-Route::patch('/companys/{company}/users/{user}',[UserController::class,'update']);
+Route::patch('/companies/{company}/users/{user}',[UserController::class,'update']);
 
-Route::delete('/companys/{company}/users/{user}',[UserController::class,'destroy']);
+Route::delete('/companies/{company}/users/{user}',[UserController::class,'destroy']);
 
 
 

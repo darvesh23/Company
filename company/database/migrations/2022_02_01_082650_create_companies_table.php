@@ -18,6 +18,7 @@ class CreateCompaniesTable extends Migration
             $table->String('name');
             $table->string('location');
             $table->foreignId('company_id')->nullable()->constrained('companies');
+            $table->softDeletes();
         });
     }
 

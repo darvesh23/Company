@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->integer('salary');
             $table->string('password');
             $table->rememberToken();
-            $table->foreignId('company_id')->constrained('companies');
+            $table->foreignId('company_id')->constrained('companies')->onDelete('cascade');
             $table->timestamps();
         });
     }
