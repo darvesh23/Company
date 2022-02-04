@@ -76,7 +76,7 @@ class CompanyController extends Controller
      */
     public function destroy(CompanyPatchRequest $CompPatchrequest,Company $Company,$id)
     {
-        $cat=$Company->delete($id);
+        $cat=$Company->find($id)->delete();
 
         return response()->json("deleted"); 
     }

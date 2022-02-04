@@ -108,7 +108,7 @@ class TagController extends Controller
      */
     public function destroy(TagPatchRequest $request,User $user ,$userId,$id)
     {
-        $cat=$user->tags()->delete($id);
+        $cat=$user->tags()->find($id)->delete();
 
         return response()->json("deleted"); 
     }

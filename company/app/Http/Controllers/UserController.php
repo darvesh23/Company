@@ -115,7 +115,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(UserPatchRequest $request,Company $company,$id)
-    {  $cat=$company->Users()->delete($id);
+    {  $cat=$company->Users()->find($id)->delete();
 
         return response()->json("deleted"); 
     

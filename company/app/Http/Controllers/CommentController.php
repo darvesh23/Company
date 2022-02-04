@@ -113,7 +113,7 @@ class CommentController extends Controller
      */
     public function destroy(CommentPatchRequest $request,User $user ,$userId,$id)
     {
-        $cat=$user->comments()->delete($id);
+        $cat=$user->comments()->find($id)->delete();
 
         return response()->json("deleted"); 
        

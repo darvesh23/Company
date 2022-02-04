@@ -108,7 +108,7 @@ class CategoryController extends Controller
     {
       
         
-        $cat=$user->categorys()->delete($id);
+        $cat=$user->categorys()->find($id)->delete();
 
         return response()->json("deleted"); 
       
