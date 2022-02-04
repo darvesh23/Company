@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TagPatchRequest extends FormRequest
+class PostTagDeleteRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,9 +13,8 @@ class TagPatchRequest extends FormRequest
      */
     public function authorize()
     {
-        $com =$this->user->id;
-        
-        return (auth()->user()->id == $com);
+        $user = $this->post->user_id;
+        return(auth()->user()->id == $user);
     }
 
     /**
@@ -26,8 +25,7 @@ class TagPatchRequest extends FormRequest
     public function rules()
     {
         return [
-            'Name' => 'string|min:2|max:100',
-            'userId' => 'exists:users,id',
+            //
         ];
     }
 }

@@ -13,7 +13,8 @@ class PostTagRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+            $user = $this->post->user_id;
+          return(auth()->user()->id == $user);
     }
 
     /**
@@ -26,7 +27,7 @@ class PostTagRequest extends FormRequest
         
             return [
                 'tagId' => 'required|exists:tags,id',
-                'postId' => 'required|exists:posts,id',
+               // 'postId' => 'required|exists:posts,id',
             ];
         
     }

@@ -100,7 +100,7 @@ Route::delete('/users/{user}/comments/{id}',[CommentController::class,'destroy']
 
 Route::get('/posttags/{post_id}',[PostTagController::class,'index']);
 
-Route::post('/posttags',[PostTagController::class,'store']);
+Route::post('/posttags/{post}',[PostTagController::class,'store']);
 
 Route::delete('/posttags/{postId}/{tagId}',[PostTagController::class,'destroy']);
 });

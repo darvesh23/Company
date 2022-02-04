@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post_Tag;
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Database\Eloquent\Builder;
@@ -10,6 +10,7 @@ use Auth;
 use JWTAuth;
 use Hash;
 use App\Http\Requests\PostTagRequest;
+use App\Http\Requests\PostTagDeleteRequest;
 
 
 class PostTagController extends Controller
@@ -40,17 +41,12 @@ class PostTagController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request,Post_Tag $Post_Tag  , posttagRequest $posttagRequest)
+    public function store(PostTagRequest $request , Post $post)
     {   
-            $user = $Post_Tag->find($request->postId)->user_id;
-            $logUser = auth()->user();
-
-            if($logUser->id != $user){
-                return response()->json(['error'=>"denied{userId}"]);
-            }
+          /*  */
       
-            $tag=Post_Tag::create([
-            'post_id' => $request->postId,
+            $comm = $post->tags()->create([
+            //'post_id' => $request->postId,
             'tag_id' => $request->tagId,
             ]);
             return response()->json([
@@ -99,9 +95,9 @@ class PostTagController extends Controller
      * @param  \App\Models\Post_Tag  $Post_Tag
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post_Tag $Post_Tag,$postId,$tagId)
+    public function destroy(PostTagDeleteRequest $PostTagDeleteRequest, Post $post ,$tagId)
     {
-        $com = $Post_Tag->where("post_id",'=', $postId)->get()->Where(["tag_id",'=', $tagId]);
+        $com = $post->tags()->Where(["tag_id",'=', $tagId])->get();
        
         if($com)
            $com->each->delete(); 

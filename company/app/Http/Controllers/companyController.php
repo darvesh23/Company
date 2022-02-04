@@ -59,7 +59,7 @@ class CompanyController extends Controller
             $company=$company->where("id",$id)->update([
             'name' => $request->name,
             'location' => $request->location,
-            'Company_id'=>$request->Company_id,
+            'company_id'=>$request->company_id,
         ]);
             return response()->json([
                 'message' => 'Company successfully updated',
