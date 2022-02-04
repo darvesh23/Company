@@ -107,7 +107,7 @@ class PostController extends Controller
      * @param  \App\Models\Post  $Post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(PostPatchRequest $request,User $user,$userId,$id)
+    public function destroy(PostPatchRequest $request,User $user,$id)
     {
         $cat=$user->posts()->find($id)->delete();
 

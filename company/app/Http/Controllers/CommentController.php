@@ -93,7 +93,7 @@ class CommentController extends Controller
        
         $comm = $user->comments()->where("id", $id)->update([
                 'Body' => $request->body,
-                'user_id' => $request->userId,
+               // 'user_id' => $request->userId,
                 'post_id'=>$request->postId            
 
             ]);
@@ -111,7 +111,7 @@ class CommentController extends Controller
      * @param  \App\Models\Comment  $Comment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CommentPatchRequest $request,User $user ,$userId,$id)
+    public function destroy(CommentPatchRequest $request,User $user ,$id)
     {
         $cat=$user->comments()->find($id)->delete();
 
