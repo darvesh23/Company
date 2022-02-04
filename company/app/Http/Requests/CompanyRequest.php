@@ -15,7 +15,7 @@ class CompanyRequest extends FormRequest
     {
 
         $com =$this->company_id;
-        return (auth()->user()->id == $com);
+        return (auth()->user()->company_id == $com);
     }
 
     /**
