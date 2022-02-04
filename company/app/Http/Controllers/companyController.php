@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CompanyRequest;
-use App\Http\Requests\CompanyPatchRequest;
+use App\Http\Requests\Company\CompanyRequest;
+use App\Http\Requests\Company\CompanyPatchRequest;
+use App\Http\Requests\Company\CompanyDeleteRequest;
 
 use App\Models\Company;
 use Illuminate\Http\Request;
@@ -16,25 +17,24 @@ use Hash;
 class CompanyController extends Controller
 {
    
-    public function index()
+    public function under(Company $company)
     {
-        //
+        return $company->with('parent')->where('id', $company->id)->get();
     }
 
-    public function create()
+    public function index(Company $company)
     {
-        //
+        return $company->all();
     }
 
     public function store(CompanyRequest $request ,Company $company)
     {   
-       
-        
-            $company=$company->create([
+             
+        $company=$company->parent()->create([
             'name' => $request->name,
             'location' => $request->location,
-            'company_id'=>$request->Company_id,
-        ]);
+          
+              ]);
             return response()->json([
                 'message' => 'Company successfully created',
                 'Company' => $company
@@ -42,24 +42,22 @@ class CompanyController extends Controller
         
     }
 
-    public function show(Company $Company,$id)
+    public function show(Company $company)
     {
-        return $Company->find($id);
+        return $company;
     }
 
     public function edit(Company $Company)
     {
-        //
+        
     }
 
-    public function update(CompanyPatchRequest $request ,Company $company,$id)
-    {   
-       
-        
-            $company=$company->where("id",$id)->update([
+    public function update(CompanyPatchRequest $request ,Company $company)
+    {                  
+            $company=$company->update([
             'name' => $request->name,
             'location' => $request->location,
-            'company_id'=>$request->company_id,
+          //  'company_id'=>$request->company_id,
         ]);
             return response()->json([
                 'message' => 'Company successfully updated',
@@ -68,16 +66,13 @@ class CompanyController extends Controller
     
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Company  $Company
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(CompanyPatchRequest $CompPatchrequest,Company $Company,$id)
+   
+    public function destroy(CompanyDeleteRequest $CompanyDeleterequest,Company $company)
     {
-        $cat=$Company->find($id)->delete();
-
-        return response()->json("deleted"); 
+        $cat=$company->delete();
+        if($cat)
+            return response()->json("Deleted");
+        else 
+            return response()->json("Cannot Delete Company");     
     }
 }   

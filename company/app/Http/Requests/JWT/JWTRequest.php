@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\JWT;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CompanyPatchRequest extends FormRequest
+class JWTRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -12,8 +12,8 @@ class CompanyPatchRequest extends FormRequest
      * @return bool
      */
     public function authorize()
-    {   $com = $this->route()->parameter('id');
-        return (auth()->user()->company_id == $com);
+    {
+        return true;
     }
 
     /**
@@ -24,9 +24,8 @@ class CompanyPatchRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'string|min:2|max:100',
-            'location'=>'string|min:3',
-            'company_id' => 'exists:companies,id'
+            'email' => 'required|email',
+            'password' => 'required|string|min:6',
         ];
     }
 }

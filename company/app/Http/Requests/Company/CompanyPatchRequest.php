@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Company;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CompanyRequest extends FormRequest
+class CompanyPatchRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -12,9 +12,8 @@ class CompanyRequest extends FormRequest
      * @return bool
      */
     public function authorize()
-    {
-
-        $com =$this->company_id;
+    { 
+        $com =$this->company->id;
         return (auth()->user()->company_id == $com);
     }
 
@@ -24,13 +23,11 @@ class CompanyRequest extends FormRequest
      * @return array
      */
     public function rules()
-    {  
+    {
         return [
-            'name' => 'required|string|min:2|max:100',
-            'location'=>'required|string|min:3',
-           // 'company_id' => 'required|exists:companies,id'
-       
+            'name' => 'string|min:2|max:100',
+            'location'=>'string|min:3',
+            'company_id' => 'exists:companies,id'
         ];
-        
     }
 }

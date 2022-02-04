@@ -7,33 +7,22 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use JWTAuth;
 use Hash;
+use App\Http\Requests\JWT\JWTRequest;
 
 class JWTController extends Controller
 {
 
 
-    public function login(Request $request)
+    public function login(JWTRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-            'password' => 'required|string|min:6',
-        ]);
+        $arr = [ 'email' => $request->email,'password' => $request->password,];
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
-        }
-
-        if (!$token = JWTAuth::attempt($validator->validated())) {
+        if (!$token = JWTAuth::attempt($arr)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
         return response()->json(compact('token'));
     }
 
-
-    public function register(Request $request)
-    {   
-       
-    }
 
     public function logout()
     {
