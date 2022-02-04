@@ -13,7 +13,7 @@ class CompanyPatchRequest extends FormRequest
      */
     public function authorize()
     {   $com = $this->route()->parameter('id');
-        return (auth()->user()->id == $com);
+        return (auth()->user()->company_id == $com);
     }
 
     /**

@@ -26,7 +26,7 @@ class CategoryRequest extends FormRequest
     public function rules()
     {       return [
                 'Name' => 'required|string|min:2|max:100',
-                'user_id' => 'exists:users,id'
+                //'user_id' => 'exists:users,id'
             ];
         
       

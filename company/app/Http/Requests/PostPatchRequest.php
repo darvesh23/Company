@@ -28,7 +28,7 @@ class PostPatchRequest extends FormRequest
         return [
             'title' => 'string|min:2|max:100',
             'body'=>'string',
-            'user_id' => 'exists:users,id',
+           // 'user_id' => 'exists:users,id',
             'category_id' => 'exists:category,id'
         ];
     }

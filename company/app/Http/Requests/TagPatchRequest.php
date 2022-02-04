@@ -27,7 +27,7 @@ class TagPatchRequest extends FormRequest
     {
         return [
             'Name' => 'string|min:2|max:100',
-            'userId' => 'exists:users,id',
+          //  'userId' => 'exists:users,id',
         ];
     }
 }
