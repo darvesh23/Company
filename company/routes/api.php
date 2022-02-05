@@ -36,16 +36,18 @@ Route::get('/companies',[CompanyController::class,'index']);
 
 Route::get('/companies/{company}',[CompanyController::class,'show']);
 
-Route::post('/companies/{company}/companies',[CompanyController::class,'store']);
+Route::post('/companies',[CompanyController::class,'store']);
 
 Route::patch('/companies/{company}',[CompanyController::class,'update']);
 
 Route::delete('/companies/{company}',[CompanyController::class,'destroy']);
 
-Route::get('/companies/{company}/companies',[CompanyController::class,'under']);
+//Route::get('/companies/{company}/companies',[CompanyController::class,'under']);
 
 
 // Routes for users
+
+Route::get('/companies/{company}/users',[UserController::class,'index']);
 
 Route::get('/companies/{company}/users/{user}',[UserController::class,'show']);
 

@@ -5,12 +5,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Observers\CompanyObserver;
 
 class Company extends Model
 {
     use HasFactory;
     public $timestamps = false;
     protected $guarded = [];
+    public $admin;
 
     use SoftDeletes;
 
@@ -26,4 +28,6 @@ class Company extends Model
     public function parent(){
         return $this->belongsTo(Company::class,'company_id');
     }
+
+
 }

@@ -13,15 +13,14 @@ class companySeeder extends Seeder
      *
      * @return void
      */
-    public function run(Company $company)
-    {
-     $count = $company->count();
-    if($count == 0) {
-    $company->insert([
-        "Name" => 'New TechInfo',
-        "Location" => 'Dubai',
-    ]);
-   }
+    public function run(Company $company){
+          $count = $company->count();
+             if($count == 0) {
+                    $company->create([
+                          "name" => 'New TechInfo',
+                          "Location" => 'Dubai',
+                 ]);
+         }
        
     
     }

@@ -11,112 +11,53 @@ use Illuminate\Database\Eloquent\Builder;
 use Auth;
 use JWTAuth;
 use Hash;
-use App\Http\Requests\UserRequest;
-use App\Http\Requests\UserPatchRequest;
+use App\Http\Requests\User\IndexUserRequest;
+use App\Http\Requests\User\ShowUserRequest;
+use App\Http\Requests\User\StoreUserRequest;
+use App\Http\Requests\User\UpdateUserRequest;
+use App\Http\Requests\User\DeleteUserRequest;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+    
+    public function show(ShowUserRequest $request,Company $company,User $user){
+        return $user;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    public function index(IndexUserRequest $request,Company $company){   
+        return $company->users()->get();
+    }
+  
+     
+    public function store(StoreUserRequest $request,Company $company) {     
+
+                $User = $company->users()->create([
+                        'name' => $request->name,
+                        'email' => $request->email,
+                        'password' =>Hash::make($request->password),
+                        'salary'=>$request->salary,
+                            ]);
+
+                return response()->json([ 'message' => 'User successfully registered', 'User' => $User], 201);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(UserRequest $request,Company $company)
-    {  
-        
-        $User = $company->Users()->create([
-                'Name' => $request->name,
-                'email' => $request->email,
-                'password' =>Hash::make($request->password),
-                'salary'=>$request->salary,
-               // 'company_id'=>$companyId,
 
-            ]);
-
-        return response()->json([
-            'message' => 'User successfully registered',
-            'User' => $User
-        ], 201);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\User  $User
-     * @return \Illuminate\Http\Response
-     */
-    public function show(User $User,$comp,$id)
-    {
-        return $User->find($id);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\User  $User
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(User $User)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $User
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UserPatchRequest $request,Company $company,$id)
-    {  
-        
-        $User = $company->Users()->where("id", $id)->update([
-                'Name' => $request->name,
-                'email' => $request->email,
-                'password' =>Hash::make($request->password),
-                'salary'=>$request->salary,            
-               
-            ]);
-
-        return response()->json([
-            'message' => 'User successfully updated',
-            'User' => $User
-        ], 201);
-
+   
+    public function update(UpdateUserRequest $request,Company $company,User $user){  
+        if($request->has('password')){
+            $request->merge(['password' => Hash::make($request->password)]);
+         }
+         
+          $User = $user->update(array_filter($request->all()));
+            
+          return response()->json(['message' => 'User successfully updated','User' => $User ], 201);
         
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\User  $User
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(UserPatchRequest $request,Company $company,User $user)
-    {  $cat=$company->Users()->$user->delete();
 
-        return response()->json("deleted"); 
+    public function destroy(DeleteUserRequest $request,Company $company,User $user)
+    { 
+                if($user->delete())
+                     return response()->json(['message' => 'User successfully Deleted']); 
     }
 }

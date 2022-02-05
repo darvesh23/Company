@@ -1,34 +1,23 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Request;
-use App\Models\Company;
-class UserRequest extends FormRequest
+
+class StoreUserRequest extends FormRequest
 {
-    
     public function authorize()
-    {   
-        //$com = $this->route('companyId');
-        $com =$this->company->id;
-        
-        return (auth()->user()->company_id == $com);
+    {
+        return (auth()->user()->id == $this->company->users()->first()->id);
     }
-    
-    
+
     public function rules()
-    {        
+    {
         return [
             'name' => 'required|string|min:2|max:100',
             'email' => 'required|string|email|max:100|unique:users',
             'password' => 'required|string|min:6',
             'salary'=> 'required|integer|min:3',
-            //'company_id' => 'exists:companies,id'
         ];
-       
     }
-
-
-
 }
