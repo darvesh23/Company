@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->foreignId('company_id')->constrained('companies')->onDelete('cascade');
-            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

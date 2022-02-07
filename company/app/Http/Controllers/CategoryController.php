@@ -1,116 +1,49 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Requests\Category\DeleteCategoryRequest;
+use App\Http\Requests\Category\IndexCategoryRequest;
+use App\Http\Requests\Category\ShowCategoryRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Validator;
-use Illuminate\Database\Eloquent\Builder;
-use Auth;
-use JWTAuth;
-use Hash;
-use App\Http\Requests\CategoryRequest;
-use App\Http\Requests\CategoryPatchRequest;
+use App\Http\Requests\Category\StoreCategoryRequest;
+use App\Http\Requests\Category\UpdateCategoryRequest;
+use App\Models\Category;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function show(ShowCategoryRequest $request, User $user, Category $category)
     {
-        //
+        return $category;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function index(IndexCategoryRequest $request, User $user)
     {
-        //
+        return $user->categories()->get();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(CategoryRequest $request,User $user)
+    public function store(StoreCategoryRequest $request, User $user)
     {
-       
-        
-        $cat=$user->categorys()->create([
-            'Name' => $request->Name,
-          //  'user_id'=>$request->user_id,
+        $category = $user->categories()->create([
+            'name' => $request->name,
         ]);
-            return response()->json([
-                'message' => 'Category successfully created',
-                'Category' => $cat
-            ], 201);
-        
+        return response()->json([
+            'message' => 'Category Created Successfully',
+            'Category' => $category
+        ], 201);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Category  $Category
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Category $Category,$userid,$id)
+    public function update(UpdateCategoryRequest $request, User $user, Category $category)
     {
-        return $Category->find($id);
+        $updated = $category->update($request->all());
+        return response()->json([
+            'message' => 'Category Created Updated',
+            'Category' => $updated
+        ], 201);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Category  $Category
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Category $Category)
+    public function destroy(DeleteCategoryRequest $request, User $user, Category $category)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Category  $Category
-     * @return \Illuminate\Http\Response
-     */
-    public function update(CategoryPatchRequest $request,User $user,$id)
-    {
-       
-        
-        $cat=$user->categorys()->where('id', $id)->update([
-            'Name' => $request->Name,
-            //'user_id'=>$request->user_id,
-        ]);
-            return response()->json([
-                'message' => 'Category successfully updated',
-                'Category' => $cat
-            ], 201);  
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Category  $Category
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(CategoryRequest $request,User $user,$id)
-    {
-      
-        
-        $cat=$user->categorys()->find($id)->delete();
-
-        return response()->json("deleted"); 
-      
+        if($category->delete())
+        return response()->json("Category Deleted Successfully");
     }
 }

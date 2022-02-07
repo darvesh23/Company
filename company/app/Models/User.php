@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,6 +15,7 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
 
+    use SoftDeletes;
 
     public $timestamps = false;
     protected $guarded = [];
@@ -38,7 +40,7 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    public function categorys(){
+    public function categories(){
         return $this->hasMany(Category::class);
     }
     

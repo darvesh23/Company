@@ -60,15 +60,15 @@ Route::delete('/companies/{company}/users/{user}',[UserController::class,'destro
 
 
 // Routes for Category
-Route::get('/users/{user}/categorys',[CategoryController::class,'index']);
+Route::get('/users/{user}/categories',[CategoryController::class,'index']);
 
-Route::get('/users/{user}/categorys/{category}',[CategoryController::class,'show']);
+Route::get('/users/{user}/categories/{category}',[CategoryController::class,'show']);
 
-Route::post('/users/{user}/categorys',[CategoryController::class,'store']);
+Route::post('/users/{user}/categories',[CategoryController::class,'store']);
 
-Route::patch('/users/{user}/categorys/{category}',[CategoryController::class,'update']);
+Route::patch('/users/{user}/categories/{category}',[CategoryController::class,'update']);
 
-Route::delete('/users/{user}/categorys/{category}',[CategoryController::class,'destroy']);
+Route::delete('/users/{user}/categories/{category}',[CategoryController::class,'destroy']);
 
 
 
