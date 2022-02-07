@@ -73,6 +73,7 @@ Route::delete('/users/{user}/categories/{category}',[CategoryController::class,'
 
 
 // Routes for Post
+Route::get('/users/{user}/posts',[PostController::class,'index']);
 
 Route::get('/users/{user}/posts/{post}',[PostController::class,'show']);
 

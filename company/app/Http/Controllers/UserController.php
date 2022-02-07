@@ -31,12 +31,7 @@ class UserController extends Controller
      
     public function store(StoreUserRequest $request,Company $company) {     
 
-                $User = $company->users()->create([
-                        'name' => $request->name,
-                        'email' => $request->email,
-                        'password' =>Hash::make($request->password),
-                        'salary'=>$request->salary,
-                            ]);
+                $User = $company->users()->create(array_filter($request->all()));
 
                 return response()->json([ 'message' => 'User successfully registered', 'User' => $User], 201);
     }
@@ -55,8 +50,7 @@ class UserController extends Controller
     }
 
 
-    public function destroy(DeleteUserRequest $request,Company $company,User $user)
-    { 
+    public function destroy(DeleteUserRequest $request,Company $company,User $user){ 
                 if($user->delete())
                      return response()->json(['message' => 'User successfully Deleted']); 
     }

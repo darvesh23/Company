@@ -25,10 +25,7 @@ class CompanyController extends Controller
         
         $company =Company::find(Auth::user()->company_id);
 
-             $company=$company->child()->create([
-                 'name' => $request->name,
-                 'location' => $request->location,
-               ]);
+             $company=$company->child()->create(array_filter($request->all()));
 
          return response()->json(['message' => 'Company successfully created','Company' => $company, ], 201);
     
