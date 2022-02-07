@@ -9,7 +9,7 @@ class StoreCategoryRequest extends FormRequest
     public function authorize()
     {
         
-        return (auth()->user()->company_id == $this->user->company_id);
+        return (auth()->user()->id == $this->user->id);
     }
 
     
