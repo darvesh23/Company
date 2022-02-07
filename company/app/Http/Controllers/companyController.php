@@ -9,11 +9,7 @@ use App\Http\Requests\Company\IndexCompanyRequest;
 use App\Http\Requests\Company\ShowCompanyRequest;
 use App\Models\Company;
 use Illuminate\Http\Request;
-use Validator;
-use Illuminate\Database\Eloquent\Builder;
-use Auth;
-use JWTAuth;
-use Hash;
+
 
 class CompanyController extends Controller
 {
