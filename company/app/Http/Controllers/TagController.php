@@ -29,13 +29,13 @@ class TagController extends Controller
     {
         $tag = $user->tags()->create(array_filter($request->all()));
 
-        return response()->json(['message' => 'Tag Created Successfully','user' => $tag], 201);
+        return response()->json(['message' => 'Tag Created Successfully','Tag' => $tag], 201);
     }
 
     public function update(UpdateTagRequest $request, User $user, Tag $tag)
     {
         $tag = $tag->update(array_filter($request->all()));
-        return response()->json(['message' => 'Tag Updated Succesfully','user' => $tag ], 201);
+        return response()->json(['message' => 'Tag Updated Succesfully','Tag' => $tag ], 201);
     }
 
     public function destroy(DeleteTagRequest $request, User $user, Tag $tag)

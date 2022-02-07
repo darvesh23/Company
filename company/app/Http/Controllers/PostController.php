@@ -27,7 +27,7 @@ class PostController extends Controller
     {   
        
             $p=$user->posts()->create(array_filter($request->all()));
-            return response()->json(['message' => 'Post successfully created','company' => $p ], 201);
+            return response()->json(['message' => 'Post successfully created','Post' => $p ], 201);
     
     }
 

@@ -8,7 +8,7 @@ class UpdateCompanyRequest extends FormRequest
 {
     public function authorize()
     { 
-       return (auth()->user()->id == $this->company->users()->first()->id);
+       return (auth()->user()->id == $this->company->users()->first()->id &&  auth()->user()->company_id == $this->company->id);
     }
 
     public function rules()
@@ -16,7 +16,7 @@ class UpdateCompanyRequest extends FormRequest
         return [
             'name' => 'string|min:2|max:100|unique:companies',
             'location'=>'string|min:3',
-            // 'company_id' => 'exists:companies,id'
+           
         ];
     }
 }

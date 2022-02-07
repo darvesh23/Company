@@ -4,7 +4,7 @@ namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserPatchRequest extends FormRequest
+class ShowUserRequest extends FormRequest
 {
    
     public function authorize()
@@ -16,6 +16,9 @@ class UserPatchRequest extends FormRequest
 
    
     public function rules(){
+        return [
+          
+        ];
        
     }
 }

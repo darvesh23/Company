@@ -8,7 +8,7 @@ class DeleteCompanyRequest extends FormRequest
 {
     public function authorize()
     {
-        return (auth()->user()->id == $this->company->users()->first()->id);
+        return (auth()->user()->id == $this->company->users()->first()->id  &&  auth()->user()->company_id == $this->company->id);
 
     }
 

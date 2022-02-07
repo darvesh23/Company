@@ -111,10 +111,12 @@ Route::patch('/users/{user}/comments/{comment}',[CommentController::class,'updat
 Route::delete('/users/{user}/comments/{comment}',[CommentController::class,'destroy']);
 
 
+// Routes for PostTag
+Route::get('/posts/{post}/posttags', [PostTagController::class, 'index']);
 
-Route::get('/posttags/{post_id}',[PostTagController::class,'index']);
+Route::get('/tags/{tag}/posttags', [PostTagController::class, 'show']);
 
-Route::post('/posttags/{post}',[PostTagController::class,'store']);
+Route::post('/posts/{post}/posttags', [PostTagController::class, 'store']);
 
-Route::delete('/posttags/{postId}/{tagId}',[PostTagController::class,'destroy']);
+Route::delete('/posts/{post}/posttags/{tag}', [PostTagController::class, 'destroy']);
 });

@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Http\Requests\JWT;
-
+namespace App\Http\Requests\PostTag;
 use Illuminate\Foundation\Http\FormRequest;
 
-class JWTRequest extends FormRequest
+class IndexPostTagRequest extends FormRequest
 {
-   
     public function authorize()
     {
         return true;
@@ -15,8 +13,7 @@ class JWTRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email',
-            'password' => 'required|string|min:6',
+            //
         ];
     }
 }

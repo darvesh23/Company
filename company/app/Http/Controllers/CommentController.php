@@ -27,7 +27,7 @@ class CommentController extends Controller
     {   
        
             $p=$user->comments()->create(array_filter($request->all()));
-            return response()->json(['message' => 'Comment successfully created','company' => $p ], 201);
+            return response()->json(['message' => 'Comment successfully created','Comment' => $p ], 201);
     
     }
 
