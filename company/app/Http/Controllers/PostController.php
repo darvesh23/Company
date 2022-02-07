@@ -7,11 +7,6 @@ use App\Models\Post;
 
 use Illuminate\Http\Request;
 
-use Validator;
-use Illuminate\Database\Eloquent\Builder;
-use Auth;
-use JWTAuth;
-use Hash;
 use App\Http\Requests\Post\StorePostRequest;
 use App\Http\Requests\Post\UpdatePostRequest;
 use App\Http\Requests\Post\DeletePostRequest;

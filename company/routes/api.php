@@ -104,7 +104,7 @@ Route::get('/users/{user}/comments',[CommentController::class,'index']);
 
 Route::get('/users/{user}/comments/{comment}',[CommentController::class,'show']);
 
-Route::post('/users/{user}/comments',[CommentController::class,'create']);
+Route::post('/users/{user}/comments',[CommentController::class,'store']);
 
 Route::patch('/users/{user}/comments/{comment}',[CommentController::class,'update']);
 

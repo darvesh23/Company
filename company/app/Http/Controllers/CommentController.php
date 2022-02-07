@@ -3,119 +3,45 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Http\Request;
-use Validator;
-use Illuminate\Database\Eloquent\Builder;
-use Auth;
-use JWTAuth;
-use Hash;
-use App\Http\Requests\CommentRequest;
-use App\Http\Requests\CommentPatchRequest;
+use App\Models\Comment;
 
+use Illuminate\Http\Request;
+
+use App\Http\Requests\Comment\StoreCommentRequest;
+use App\Http\Requests\Comment\UpdateCommentRequest;
+use App\Http\Requests\Comment\DeleteCommentRequest;
+use App\Http\Requests\Comment\ShowCommentRequest;
+use App\Http\Requests\Comment\IndexCommentRequest;
 
 class CommentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+    public function show(ShowCommentRequest $request,User $user,Comment $comment){
+        return $comment;
     }
-    
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(CommentRequest $request,User $user)
-    {
+    public function index(IndexCommentRequest $request,User $user){   
+        return $user->comments()->get();
+    }
+
+    public function store(StoreCommentRequest $request,User $user)
+    {   
        
-        $comm = $user->comments()->create([
-            'Body' => $request->body,
-          //  'user_id' => $request->userId,
-            'post_id'=>$request->post_id            
-
-            ]);
-
-        return response()->json([
-            'message' => 'Commented successfully ',
-            'user' => $comm
-        ], 201);
+            $p=$user->comments()->create(array_filter($request->all()));
+            return response()->json(['message' => 'Comment successfully created','company' => $p ], 201);
     
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
+
+    public function update(UpdateCommentRequest $request,User $user,Comment $comment)
+    {   
        
+            $p=$comment->update(array_filter($request->all()));
+            return response()->json(['message' => 'Comment successfully updated', 'Comment' => $p ], 201);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Comment  $Comment
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Comment $Comment,$userid,$id)
+    public function destroy(DeleteCommentRequest $request,User $user,Comment $comment)
     {
-        return $Comment->find($id);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Comment  $Comment
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Comment $Comment)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Comment  $Comment
-     * @return \Illuminate\Http\Response
-     */
-    public function update(CommentPatchRequest $request,User $user,$id)
-    {
-       
-        $comm = $user->comments()->where("id", $id)->update([
-                'Body' => $request->body,
-               // 'user_id' => $request->userId,
-                'post_id'=>$request->postId            
-
-            ]);
-
-        return response()->json([
-            'message' => 'Succesfully updated',
-            'user' => $comm
-        ], 201);
-
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Comment  $Comment
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(CommentPatchRequest $request,User $user ,$id)
-    {
-        $cat=$user->comments()->find($id)->delete();
-
-        return response()->json("deleted"); 
-       
+        if($comment->delete())
+             return response()->json("Comment Deleted Successfully"); 
     }
 }
