@@ -13,8 +13,8 @@ class companySeeder extends Seeder
      *
      * @return void
      */
-    public function run(Company $company){
-          $count = $company->count();
+    public function run(){
+          $count = Company::count();
              if($count == 0) {
                     $company->create([
                           "name" => 'New TechInfo',
