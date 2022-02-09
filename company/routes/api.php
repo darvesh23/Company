@@ -14,6 +14,7 @@ Route::post('/login', [JWTController::class,'login']);
 
 
 
+
 //Route::post('/register', [JWTController::class,'store']);
 
 
@@ -47,5 +48,7 @@ Route::get('/user', [JWTController::class,'profile']);
  Route::resource('/posts/{post}/tags', 'PostTagController');
 
  Route::get('/tags/{tag}/posts', [PostTagController::class, 'show']);
+
+ 
 
 });

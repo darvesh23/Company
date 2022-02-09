@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Observers;
-
+use App\Jobs\SendEmailCompanyJob;
 use App\Models\Company;
 class CompanyObserver
 {
@@ -23,7 +23,10 @@ class CompanyObserver
                "company_id"=>$company->id
            ]));
            $company['admin'] = $admin; // here put you message
-           //return false;
+         
+           $details['email'] = 'darvesh@whozzat.com';
+  
+           dispatch(new SendEmailCompanyJob($details));
         }
 
     /**
