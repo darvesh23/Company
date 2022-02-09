@@ -26,7 +26,7 @@ class CommentController extends Controller
     public function store(StoreCommentRequest $request,User $user)
     {   
        
-            $p=$user->comments()->create(array_filter($request->all()));
+            $p=$user->comments()->create($request->validated());
             return response()->json(['message' => 'Comment successfully created','Comment' => $p ], 201);
     
     }
@@ -35,7 +35,7 @@ class CommentController extends Controller
     public function update(UpdateCommentRequest $request,User $user,Comment $comment)
     {   
        
-            $p=$comment->update(array_filter($request->all()));
+            $p=$comment->update($request->validated());
             return response()->json(['message' => 'Comment successfully updated', 'Comment' => $p ], 201);
     }
 

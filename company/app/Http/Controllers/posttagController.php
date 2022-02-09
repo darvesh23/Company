@@ -25,7 +25,7 @@ class PostTagController extends Controller
 
     public function store(StorePostTagRequest $request, Post $post)
     {   
-        $posttag = $post->tags()->sync($request->all());
+        $posttag = $post->tags()->sync($request->validated());
             return response()->json(['message' => 'Tag used in Post successfully ','PostTag' => $posttag], 201);
     }
     

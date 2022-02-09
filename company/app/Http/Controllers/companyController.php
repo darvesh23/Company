@@ -21,7 +21,7 @@ class CompanyController extends Controller
         
         $company =Company::find(Auth::user()->company_id);
 
-             $company=$company->child()->create(array_filter($request->all()));
+             $company=$company->child()->create(request->validated());
 
          return response()->json(['message' => 'Company successfully created','Company' => $company, ], 201);
     
@@ -41,7 +41,7 @@ class CompanyController extends Controller
 
     public function update(UpdateCompanyRequest $request ,Company $company){                   
             
-            $company= $company->update(array_filter($request->all()));
+            $company= $company->update(request->validated());
             
             return response()->json(['message' => 'Company successfully updated','Company' => $company], 201);
     

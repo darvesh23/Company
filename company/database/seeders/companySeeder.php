@@ -8,11 +8,7 @@ use App\Models\Company;
 
 class CompanySeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
+    
     public function run(){
           $count = Company::count();
              if($count == 0) {

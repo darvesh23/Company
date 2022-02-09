@@ -33,7 +33,7 @@ class UserController extends Controller
           if($request->has('password')){
             $request->merge(['password' => Hash::make($request->password)]);
          }
-                $User = $company->users()->create(array_filter($request->all()));
+                $User = $company->users()->create($request->validated());
 
                 return response()->json([ 'message' => 'User successfully registered', 'User' => $User], 201);
     }
@@ -45,7 +45,7 @@ class UserController extends Controller
             $request->merge(['password' => Hash::make($request->password)]);
          }
          
-          $User = $user->update(array_filter($request->all()));
+          $User = $user->update($request->validated());
             
           return response()->json(['message' => 'User successfully updated','User' => $User ], 201);
         
