@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\company;
-
-use Illuminate\Http\Request;
+use Illuminate\Http\Requests;
+use App\Services\UserServices;
 use Validator;
 use Illuminate\Database\Eloquent\Builder;
 use Auth;
@@ -29,22 +29,17 @@ class UserController extends Controller
     }
   
      
-    public function store(StoreUserRequest $request,Company $company) {     
-          if($request->has('password')){
-            $request->merge(['password' => Hash::make($request->password)]);
-         }
-                $User = $company->users()->create($request->validated());
-
-                return response()->json([ 'message' => 'User successfully registered', 'User' => $User], 201);
+    public function store(StoreUserRequest $request,UserService $userService ,Company $company) {     
+            $user= $userService->store($request, $company);
+            if($user){
+            return response()->json([ 'message' => 'User successfully registered', 'User' => $user], 201);
+             }                
     }
 
 
    
     public function update(UpdateUserRequest $request,Company $company,User $user){  
-        if($request->has('password')){
-            $request->merge(['password' => Hash::make($request->password)]);
-         }
-         
+                
           $User = $user->update($request->validated());
             
           return response()->json(['message' => 'User successfully updated','User' => $User ], 201);
