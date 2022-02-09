@@ -3,13 +3,16 @@
 namespace App\Http\Requests\Post;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Category;
+use App\Models\User;
 
 class StorePostRequest extends FormRequest
 {
   
     public function authorize(){
-    
-        return (auth()->user()->id == $this->user->id);
+    $a = Category::find(request('category_id'))->users->company_id;
+   // dd($a);
+        return (auth()->user()->id == $this->user->id && auth()->user()->company_id == $a);
     }
 
   

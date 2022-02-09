@@ -2,13 +2,16 @@
 
 namespace App\Http\Requests\PostTag;
 use Illuminate\Foundation\Http\FormRequest;
-
+use App\Models\Tag;
+    
 class StorePostTagRequest extends FormRequest
 {
     
     public function authorize()
     {
-        return (auth()->user()->id == $this->post->user_id);
+        $postcom = $this->post->users->company_id;
+        $tagcom =  Tag::find(request('tag_id'))->users->company_id;
+        return (auth()->user()->id == $this->post->user_id && $postcom == $tagcom);
     }
 
    

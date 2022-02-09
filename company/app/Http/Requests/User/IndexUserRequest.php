@@ -10,7 +10,7 @@ class IndexUserRequest extends FormRequest
     
     public function authorize()
     {   
-        return (auth()->user()->id == $this->company->users()->first()->id);
+        return (auth()->user()->id == $this->company->users()->first()->id );
     }
     
     

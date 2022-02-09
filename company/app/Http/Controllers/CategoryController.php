@@ -20,9 +20,7 @@ class CategoryController extends Controller
     }
 
     public function store(StoreCategoryRequest $request, User $user){
-            $category = $user->categories()->create([
-                'name' => $request->name,
-            ]);
+            $category = $user->categories()->create(array_filter($request->all()));
             return response()->json(['message' => 'Category Created Successfully','Category' => $category ], 201);
     }
 

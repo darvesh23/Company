@@ -30,7 +30,9 @@ class UserController extends Controller
   
      
     public function store(StoreUserRequest $request,Company $company) {     
-
+          if($request->has('password')){
+            $request->merge(['password' => Hash::make($request->password)]);
+         }
                 $User = $company->users()->create(array_filter($request->all()));
 
                 return response()->json([ 'message' => 'User successfully registered', 'User' => $User], 201);

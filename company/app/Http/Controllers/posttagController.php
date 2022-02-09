@@ -15,24 +15,20 @@ class PostTagController extends Controller
 {
     public function index(IndexPostTagRequest $request, Post $post)
     {
-        return $post->tags()->get();
+        return $post->tags;
     }
     
     public function show(ShowPostTagRequest $request, Tag $tag)
     {
-        return $tag->posts()->get();
+        return $tag->posts;
     }
 
     public function store(StorePostTagRequest $request, Post $post)
-    {
-        $posttag = $post->tags()->attach(['tag_id' => $request->tag_id,]);
+    {   
+        $posttag = $post->tags()->sync($request->all());
             return response()->json(['message' => 'Tag used in Post successfully ','PostTag' => $posttag], 201);
     }
     
 
-    public function destroy(DeletePostTagRequest $request, Post $post,Tag $tag)
-    {
-        $posttag = $post->tags()->detach($tag);
-            return response()->json([ 'message' => 'Tag removed from Post successfully ','PostTag' => $posttag], 201);
-    }
+    
  }
