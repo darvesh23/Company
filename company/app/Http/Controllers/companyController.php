@@ -9,19 +9,16 @@ use App\Http\Requests\Company\IndexCompanyRequest;
 use App\Http\Requests\Company\ShowCompanyRequest;
 use App\Models\Company;
 use Illuminate\Http\Request;
-
+use Auth;
 
 class CompanyController extends Controller
 {
    
-
-    
-
     public function store(StoreCompanyRequest $request ){   
         
         $company =Company::find(Auth::user()->company_id);
 
-             $company=$company->child()->create(request->validated());
+        $company=$company->child()->create(request->validated());
 
          return response()->json(['message' => 'Company successfully created','Company' => $company, ], 201);
     
