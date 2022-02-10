@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Jobs\PostReminderJob;
 use App\Jobs\SendEmailCompanyJob;
 use App\Mail\SendEmailCompany;
+use App\Mail\PostReminderMail;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Console\Command;
@@ -47,7 +48,7 @@ class PostReminder extends Command
 
          foreach($notposted as $i){
          $data['email'] = "darvesh@whozzat.com";
-         dispatch(new SendEmailCompanyJob($data));
+         dispatch(new PostReminderMail($data));
          }
     }
 }
