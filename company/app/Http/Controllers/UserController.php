@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\company;
 use Illuminate\Http\Requests;
-use App\Services\UserServices;
+use App\Services\CreateUserService;
 use Validator;
 use Illuminate\Database\Eloquent\Builder;
 use Auth;
@@ -29,8 +29,9 @@ class UserController extends Controller
     }
   
      
-    public function store(StoreUserRequest $request,UserService $userService ,Company $company) {     
-            $user= $userService->store($request, $company);
+    public function store(StoreUserRequest $request,CreateUserService $userService ,Company $company) {   
+           // dd($request->validated());  
+            $user= $userService->store($request->validated(), $company);
             if($user){
             return response()->json([ 'message' => 'User successfully registered', 'User' => $user], 201);
              }                

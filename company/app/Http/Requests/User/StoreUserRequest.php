@@ -23,4 +23,11 @@ class StoreUserRequest extends FormRequest
             'salary'=> 'required|integer|min:3',
         ];
     }
+    public function validated()
+    {   
+        if($this->has('password')){
+            $this->merge(['password' => bcrypt($this->password)]);
+          }
+          return $this->all();
+    }
 }
