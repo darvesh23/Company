@@ -28,6 +28,6 @@ class PostReminderMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Reminderr')->view('welcome');
+        return $this->subject("Reminder")->view('welcome');
     }
 }

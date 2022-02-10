@@ -47,8 +47,8 @@ class PostReminder extends Command
          $notposted = User::select('email')->whereNotIn('id', Post::select('user_id'))->get();
 
          foreach($notposted as $i){
-         $data['email'] = "darvesh@whozzat.com";
-         dispatch(new PostReminderMail($data));
+             $data['email'] = "darvesh@whozzat.com";
+             dispatch(new PostReminderJob($data));
          }
     }
 }

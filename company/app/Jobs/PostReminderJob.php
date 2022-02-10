@@ -10,7 +10,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
-
+use App\Mail\PostReminderMail;
 class PostReminderJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -33,7 +33,7 @@ class PostReminderJob implements ShouldQueue
      */
     public function handle()
     {
-        $email = new PostReminder();
-        Mail::to($this->details['email']->send($email));
+        $email = new PostReminderMail();
+        Mail::to($this->details['email'])->send($email);
     }
 }
